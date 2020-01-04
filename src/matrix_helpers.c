@@ -32,36 +32,19 @@ void print_matrix(int n, float* m) {
 }
 
 
-void get_min(int x, int y, Mat m, Mat* new_m, float *ptrM) {
-	//int iContRow, iContCol;
+void get_min(int x, int y, Mat m, Mat* new_m) {
 	int iCont;
 
 	new_m->n = m.n - 1;
-	new_m->m = ptrM;
+	new_m->m = malloc(new_m->n*new_m->n*sizeof(float));
 
-	//iContRow = 0;
-	//iContCol = 0;
 	iCont = 0;
 	for (int i = 0; i < m.n; i++) {
 		if (i != y) {
 			for (int j = 0; j < m.n; j++) {
 				if (j != x) {
-					//Version optimizada
 					new_m->m[iCont] = m.m[i*m.n + j];
 					iCont++;
-
-					//Version anterior
-					/*if (iContRow < new_m->n) { //Se ejecuta en las filas 1 - n
-						new_m->m[iContCol*new_m->n + iContRow] = m.m[i*m.n + j];
-						iContRow++;
-					} else { // Se ejecuta para el primer elementos de cada fila
-						iContRow = 0;
-						if (iContCol < new_m->n) {
-							iContCol++;
-							new_m->m[iContCol*new_m->n + iContRow] = m.m[i*m.n + j];
-							iContRow++;
-						}
-					}*/
 				}
 			}
 		}
@@ -81,10 +64,45 @@ float det(Mat matrix) {
 		fDet = 0;
 		for (int j = 0; j < matrix.n; j++) {
 			Mat mAux;
-			float ptrM[matrix.n-1][matrix.n-1];
-			get_min(j, 0, matrix, &mAux, (float*) ptrM);
+			get_min(j, 0, matrix, &mAux);
 			fDet += pow(-1, j)*matrix.m[j]*det(mAux);
+			free(mAux.m);
 		}
 	}
 	return fDet;
 }
+
+
+
+//Version vieja de get_min
+/*
+void get_min(int x, int y, Mat m, Mat* new_m, float* ptrM) {
+	int iContRow, iContCol;
+
+	new_m->n = m.n - 1;
+	new_m->m = ptrM;
+
+	iContRow = 0;
+	iContCol = 0;
+	for (int i = 0; i < m.n; i++) {
+		if (i != y) {
+			for (int j = 0; j < m.n; j++) {
+				if (j != x) {
+					//Version anterior
+					if (iContRow < new_m->n) { //Se ejecuta en las filas 1 - n
+						new_m->m[iContCol*new_m->n + iContRow] = m.m[i*m.n + j];
+						iContRow++;
+					} else { // Se ejecuta para el primer elementos de cada fila
+						iContRow = 0;
+						if (iContCol < new_m->n) {
+							iContCol++;
+							new_m->m[iContCol*new_m->n + iContRow] = m.m[i*m.n + j];
+							iContRow++;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+*/

@@ -15,7 +15,7 @@ typedef struct {
 
 void fill_matrix(int, float*); //Llena la matriz
 void print_matrix(int, float*); //Muestra la matriz x pantalla
-void get_min(int, int, Mat, Mat*, float*); //Devuelve la matriz recortada x referencia
+void get_min(int, int, Mat, Mat*); //Devuelve la matriz recortada x referencia
 float det(Mat); //Calcula el determinante de la matriz
 
 #endif /* MATRIX_HELPERS_H_ */
