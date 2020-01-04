@@ -33,18 +33,25 @@ void print_matrix(int n, float* m) {
 
 
 void get_min(int x, int y, Mat m, Mat* new_m, float *ptrM) {
-	int iContRow, iContCol;
+	//int iContRow, iContCol;
+	int iCont;
 
 	new_m->n = m.n - 1;
 	new_m->m = ptrM;
 
-	iContRow = 0;
-	iContCol = 0;
+	//iContRow = 0;
+	//iContCol = 0;
+	iCont = 0;
 	for (int i = 0; i < m.n; i++) {
 		if (i != y) {
 			for (int j = 0; j < m.n; j++) {
 				if (j != x) {
-					if (iContRow < new_m->n) { //Se ejecuta en las filas 1 - n
+					//Version optimizada
+					new_m->m[iCont] = m.m[i*m.n + j];
+					iCont++;
+
+					//Version anterior
+					/*if (iContRow < new_m->n) { //Se ejecuta en las filas 1 - n
 						new_m->m[iContCol*new_m->n + iContRow] = m.m[i*m.n + j];
 						iContRow++;
 					} else { // Se ejecuta para el primer elementos de cada fila
@@ -54,7 +61,7 @@ void get_min(int x, int y, Mat m, Mat* new_m, float *ptrM) {
 							new_m->m[iContCol*new_m->n + iContRow] = m.m[i*m.n + j];
 							iContRow++;
 						}
-					}
+					}*/
 				}
 			}
 		}
