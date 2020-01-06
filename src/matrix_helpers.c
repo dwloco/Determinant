@@ -36,7 +36,7 @@ void get_min(int x, int y, Mat m, Mat* new_m) {
 	int iCont;
 
 	new_m->n = m.n - 1;
-	new_m->m = malloc(new_m->n*new_m->n*sizeof(float));
+	new_m->m = (float*) malloc(new_m->n*new_m->n*sizeof(float));
 
 	iCont = 0;
 	for (int i = 0; i < m.n; i++) {
@@ -65,13 +65,16 @@ float det(Mat matrix) {
 		for (int j = 0; j < matrix.n; j++) {
 			Mat mAux;
 			get_min(j, 0, matrix, &mAux);
-			fDet += pow(-1, j)*matrix.m[j]*det(mAux);
+			fDet += cofactor(j, 0, matrix.m[j])*det(mAux);
 			free(mAux.m);
 		}
 	}
 	return fDet;
 }
 
+float cofactor(int x, int y, float num) {
+	return pow(-1, x+y)*num;
+}
 
 
 //Version vieja de get_min
